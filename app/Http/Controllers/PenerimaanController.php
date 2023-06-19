@@ -11,6 +11,7 @@ class PenerimaanController extends Controller
 {
     public function index()
     {
+
         $latest = Penerimaan::latest()->first();
         $no = 1;
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Penerimaancontroller;
 use App\Http\Controllers\Pengeluarancontroller;
 use App\Http\Controllers\Datapenggunacontroller;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,7 +52,11 @@ Route::group(['middleware' => 'Userauth'], function () {
 
 
         Route::group(['prefix' => 'laporan'], function(){
-            Route::get('/', [LaporanController::class, 'index'])->name('admin.laporan.index');
+            Route::get('/laporan-penerimaan', [LaporanController::class, 'laporanPenerimaan'])->name('laporan.penerimaan');
+            Route::get('/laporan-penerimaan/list', [LaporanController::class, 'laporanPenerimaanList'])->name('laporan.penerimaan.list');
+            Route::get('/laporan-pengeluaran', [LaporanController::class, 'laporanPengeluaran'])->name('laporan.pengeluaran');
+            Route::get('/laporan-pengeluaran/list', [LaporanController::class, 'laporanPengeluaranList'])->name('laporan.pengeluaran.list');
+
         });
     // });
 

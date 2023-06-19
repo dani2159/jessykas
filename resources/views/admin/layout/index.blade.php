@@ -138,13 +138,13 @@
                         <li class="nav-header"></li>
                         <li class="nav-header">Laporan</li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('laporan.penerimaan') }}" class="nav-link">
                                 <i class="nav-icon fas fa-file-pdf"></i>
                                 <p> Jurnal Penerimaah KAS</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('laporan.pengeluaran') }}" class="nav-link">
                                 <i class="nav-icon fas fa-file-pdf"></i>
                                 <p> Jurnal Pengeluaran KAS</p>
                             </a>
@@ -172,6 +172,7 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+
 
     <!-- jQuery -->
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>

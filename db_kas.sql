@@ -11,7 +11,7 @@
  Target Server Version : 50734
  File Encoding         : 65001
 
- Date: 19/06/2023 13:28:33
+ Date: 19/06/2023 15:54:44
 */
 
 SET NAMES utf8mb4;
@@ -52,13 +52,14 @@ CREATE TABLE `tb_penerimaan` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_penerimaan
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_penerimaan` VALUES (1, 'I001/VI/2023', 500000, 'Pemasukan Awal Edit', '2023-06-19', '2023-06-19 13:00:33', '2023-06-19 13:15:07');
+INSERT INTO `tb_penerimaan` VALUES (1, 'I002/VI/2023', 500000, 'Pemasukan Awal Edit', '2023-06-19', '2023-06-19 13:00:33', '2023-06-19 13:15:07');
+INSERT INTO `tb_penerimaan` VALUES (2, 'I001/VI/2023', 1000000, 'Penerimaan 0', '2023-06-01', '2023-06-19 15:38:03', '2023-06-19 15:38:03');
 COMMIT;
 
 -- ----------------------------
@@ -104,7 +105,7 @@ CREATE TABLE `tb_users` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `tb_users` VALUES (1, 'admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1', 'admin', '2022-12-14 21:52:28', '2022-12-14 21:52:28', 'Administrator');
-INSERT INTO `tb_users` VALUES (16, 'owner', '$2y$10$HOJoaWr.jGrKyhFfO8SJLe/Ut8dOgbEysM7bo71hvf14aqHj3EQlO', '1', 'owner', '2023-03-25 21:12:31', '2023-03-25 21:12:31', 'Owener');
+INSERT INTO `tb_users` VALUES (16, 'owner', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1', 'owner', '2023-03-25 21:12:31', '2023-03-25 21:12:31', 'Owener');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

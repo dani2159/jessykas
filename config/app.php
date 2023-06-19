@@ -182,6 +182,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+
+        Yajra\DataTables\DataTablesServiceProvider::class,
         RezaAr\Highcharts\Provider::class,
 
         /*
@@ -196,7 +198,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        
+
 
     ],
 
@@ -213,6 +215,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Highcharts' => RezaAr\Highcharts\Facade::class,
     ])->toArray(),
 

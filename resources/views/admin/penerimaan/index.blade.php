@@ -1,4 +1,4 @@
-@extends('admin.layout.index', ['title' => 'Data Beban'])
+@extends('admin.layout.index', ['title' => 'Data Penerimaan KAS'])
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -15,14 +15,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Data Beban</h1>
+                        <h1 class="m-0">Data Penerimaan KAS</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
                                 <a href="#">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active">Data Beban</li>
+                            <li class="breadcrumb-item active">Data Penerimaan KAS</li>
                         </ol>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                             <div class="card-header">
                                 <button class="float-right btn btn-primary btn-sm" data-toggle="modal"
                                     data-target="#addModal" data-backdrop="static" data-keyboard="false"><span
-                                        class="fa fa-plus"></span> Tambah Data Beban</button>
+                                        class="fa fa-plus"></span> Tambah Data Penerimaan KAS</button>
                             </div>
                             <div class="card-body">
                                 <table class="table table-bordered table-striped table-hover dataTable no-footer"
@@ -44,8 +44,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Nama Beban</th>
+                                            <th>NO. Income</th>
+                                            <th>Tanggal</th>
                                             <th>Keterangan</th>
+                                            <th>Nominal</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -53,8 +55,10 @@
                                         @foreach ($list as $key => $item)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $item->nama_beban }}</td>
+                                                <td>{{ $item->no_income }}</td>
+                                                <td>{{ Tgl_Indo($item->tanggal_penerimaan) }}</td>
                                                 <td>{{ $item->keterangan }}</td>
+                                                <td>Rp. {{ number_format($item->jumlah_penerimaan, 0, ',', '.') }}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <button class="btn btn-primary btn-sm"
@@ -90,13 +94,25 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama_beban"><span class="text-danger">*</span> Nama Beban</label>
-                            <input type="text" class="form-control" id="nama_beban" name="nama_beban" required
-                                placeholder="Masukkan Nama Beban">
+                            <label for="no_income"><span class="text-danger">*</span> No Income</label>
+                            <input type="text" class="form-control" id="no_income" name="no_income" required readonly
+                                value="{{ $no_income }}" placeholder="Masukkan No Income">
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal"><span class="text-danger">*</span> Tanggal</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" required
+                                placeholder="Masukkan Tanggal Penerimaan KAS">
                         </div>
                         <div class="form-group">
                             <label for="keterangan"><span class="text-danger">*</span> Keterangan</label>
                             <textarea name="keterangan" id="keterangan" class="form-control" required placeholder="Masukkan Keterangan"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="jumlah_penerimaan"><span class="text-danger">*</span> Nominal (Rp.)</label>
+                            <input type="number" name="jumlah_penerimaan" id="jumlah_penerimaan" class="form-control"
+                                required placeholder="Masukkan Nominal Jumlah Penerimaan KAS" min="1">
+                            <small style="color:red;font-size: 80%;font-weight: 400;">Masukkan nominal tanpa titik atau
+                                koma</small>
                         </div>
 
                     </div>
@@ -124,14 +140,27 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama_bebanu"><span class="text-danger">*</span> Nama Beban</label>
-                            <input type="text" class="form-control" id="nama_bebanu" name="nama" required
-                                placeholder="Masukkan Nama Beban">
+                            <label for="no_income"><span class="text-danger">*</span> No Income</label>
+                            <input type="text" class="form-control" id="no_incomeu" name="no_income" required
+                                readonly value="{{ $no_income }}" placeholder="Masukkan No Income">
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal"><span class="text-danger">*</span> Tanggal</label>
+                            <input type="date" class="form-control" id="tanggalu" name="tanggal" required
+                                placeholder="Masukkan Tanggal Penerimaan KAS">
                         </div>
                         <div class="form-group">
                             <label for="keterangan"><span class="text-danger">*</span> Keterangan</label>
                             <textarea name="keterangan" id="keteranganu" class="form-control" required placeholder="Masukkan Keterangan"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="jumlah_penerimaan"><span class="text-danger">*</span> Nominal (Rp.)</label>
+                            <input type="number" name="jumlah_penerimaan" id="jumlah_penerimaanu" class="form-control"
+                                required placeholder="Masukkan Nominal Jumlah Penerimaan KAS" min="1">
+                            <small style="color:red;font-size: 80%;font-weight: 400;">Masukkan nominal tanpa titik atau
+                                koma</small>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal"><span
@@ -169,7 +198,7 @@
                 var formData = new FormData(this);
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('beban.insert') }}",
+                    url: "{{ route('penerimaan.insert') }}",
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
@@ -208,7 +237,7 @@
                 var formData = new FormData(this);
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('beban.update') }}",
+                    url: "{{ route('penerimaan.update') }}",
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
@@ -255,7 +284,7 @@
                         $.LoadingOverlay("show");
                         $.ajax({
                             method: 'DELETE',
-                            url: "{{ route('beban.delete') }}",
+                            url: "{{ route('penerimaan.delete') }}",
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
@@ -290,8 +319,10 @@
 
         function ubahData(item) {
             $('#id').val(item.id);
-            $('#nama_bebanu').val(item.nama_beban);
+            $('#no_incomeu').val(item.no_income);
+            $('#tanggalu').val(item.tanggal_penerimaan);
             $('#keteranganu').val(item.keterangan);
+            $('#jumlah_penerimaanu').val(item.jumlah_penerimaan);
             $('#updateModal').modal({
                 backdrop: 'static',
                 keyboard: false

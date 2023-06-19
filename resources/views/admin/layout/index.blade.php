@@ -44,7 +44,7 @@
     <div class="wrapper">
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="{{ asset('assets/img/icon-posyandu.png') }}" alt="AdminLTELogo"
+            <img class="animation__shake" src="{{ asset('assets/img/logo-kas.png') }}" alt="AdminLTELogo"
                 height="120" width="120">
         </div>
         <!-- Navbar -->
@@ -78,7 +78,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ route('admin.dashboard') }}" class="brand-link">
-                <img src="{{ asset('assets/img/icon-posyandu.png') }}" alt="AdminLTE Logo" class="brand-image"
+                <img src="{{ asset('assets/img/logo-kas.png') }}" alt="AdminLTE Logo" class="brand-image"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">KAS APPS</span>
             </a>
@@ -96,8 +96,9 @@
                             </a>
                         </li>
                         <li class="nav-header"></li>
-                        <li class="nav-header">Data Master</li>
-                        <li class="nav-item">
+                        @if (Auth::user()->role == 'admin')
+                            <li class="nav-header">Data Master</li>
+                            {{-- <li class="nav-item">
                             <a href="{{ route('beban.index') }}" class="nav-link">
                                 <i class="nav-icon 	fas fa-sliders-h"></i>
                                 <p> Data Beban </p>
@@ -108,30 +109,31 @@
                                 <i class="nav-icon fas fa-fax"></i>
                                 <p> Data Penerimaan Piutang</p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('pengguna.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p> Data Pengguna</p>
-                            </a>
-                        </li>
+                        </li> --}}
+                            <li class="nav-item">
+                                <a href="{{ route('pengguna.index') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p> Data Pengguna</p>
+                                </a>
+                            </li>
 
-                        <li class="nav-header"></li>
-                        <li class="nav-header">Data Transaksi</li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon 	fas fa-sign-in-alt"></i>
-                                <p> Penerimaan</p>
-                            </a>
-                        </li>
+                            <li class="nav-header"></li>
+                            <li class="nav-header">Data Transaksi</li>
+                            <li class="nav-item">
+                                <a href="{{ route('penerimaan.index') }}" class="nav-link">
+                                    <i class="nav-icon 	fas fa-sign-in-alt"></i>
+                                    <p> Penerimaan</p>
+                                </a>
+                            </li>
 
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon 	fas fa-sign-out-alt"></i>
-                                <p> Pengeluaran</p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ route('pengeluaran.index') }}" class="nav-link">
+                                    <i class="nav-icon 	fas fa-sign-out-alt"></i>
+                                    <p> Pengeluaran</p>
+                                </a>
+                            </li>
+                        @endif
 
                         <li class="nav-header"></li>
                         <li class="nav-header">Laporan</li>

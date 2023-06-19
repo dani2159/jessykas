@@ -31,10 +31,10 @@
                 <div class="row">
                     <div class="col-lg-3 col-sm-6 col-md-3">
                         <div class="info-box">
-                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-female"></i></span>
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-sign-in-alt"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Data Ibu</span>
+                                <span class="info-box-text">Total Penerimaan</span>
                                 <span class="info-box-number"></span>
                             </div>
                             <!-- /.info-box-content -->
@@ -44,11 +44,11 @@
 
                     <div class="col-lg-3 col-sm-6 col-md-3">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-child"
+                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-sign-out-alt"
                                     style="color:white;"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Data Anak</span>
+                                <span class="info-box-text">Total Pengeluaran</span>
                                 <span class="info-box-number"></span>
                             </div>
                             <!-- /.info-box-content -->
@@ -61,7 +61,7 @@
                             <span class="info-box-icon bg-danger elevation-1"><i class=" fas fa-users"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Data Petugas</span>
+                                <span class="info-box-text">Data </span>
                                 <span class="info-box-number"></span>
                             </div>
                             <!-- /.info-box-content -->
@@ -72,10 +72,10 @@
 
                     <div class="col-lg-3 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
-                            <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-user-md"></i></span>
+                            <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-users"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Data Bidan</span>
+                                <span class="info-box-text">Data Pengguna</span>
                                 <span class="info-box-number"></span>
                             </div>
                             <!-- /.info-box-content -->
@@ -120,7 +120,7 @@
                         <div class="card">
                             <div class="card-header with-border">
                                 <h3 class="card-title">
-                                    Rekap Data Anak Tahun @php echo date("Y"); @endphp
+                                    Rekap Data @php echo date("Y"); @endphp
                                 </h3>
                                 <div class="card-tools pull-right">
 

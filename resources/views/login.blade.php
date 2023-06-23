@@ -17,6 +17,10 @@
 
 <body class="hold-transition login-page">
     <div class="login-box">
+        <div class="login-logo">
+            <img src="{{ asset('assets/img/logo-kas.png') }}" width="150" class="brand-image"
+                alt="Logo SAMPURASUN"><br>
+        </div>
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Login KAS Apps</p>
@@ -31,12 +35,17 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="password" id="password" class="form-control"
+                        <input type="password" name="password" id="password" class="form-control password"
                             placeholder="Password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary toggle-password" type="button">
+                                <i class="fas fa-eye"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="row">
@@ -66,6 +75,20 @@
 
     <script>
         $(document).ready(function() {
+            //show password
+            $(".toggle-password").click(function() {
+                var input = $(".password");
+                input.attr('type') === 'password' ? input.attr('type', 'text') : input.attr('type',
+                    'password')
+                if (input.attr('type') === 'password') {
+                    $(this).html('<i class="fas fa-eye"></i>');
+                } else {
+                    $(this).html('<i class="fas fa-eye-slash"></i>');
+                }
+
+
+            });
+
             $('#loginForm').on('submit', (function(e) {
                 e.preventDefault();
                 var formData = new FormData(this);

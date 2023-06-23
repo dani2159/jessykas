@@ -35,7 +35,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Penerimaan</span>
-                                <span class="info-box-number"></span>
+                                <span class="info-box-number">{{ $total_penerimaan }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -49,7 +49,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Pengeluaran</span>
-                                <span class="info-box-number"></span>
+                                <span class="info-box-number">{{ $total_pengeluaran }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -58,11 +58,11 @@
 
                     <div class="col-lg-3 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
-                            <span class="info-box-icon bg-danger elevation-1"><i class=" fas fa-users"></i></span>
+                            <span class="info-box-icon bg-danger elevation-1">Rp</span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Data </span>
-                                <span class="info-box-number"></span>
+                                <span class="info-box-text">Total Saldo</span>
+                                <span class="info-box-number">{{ $total_saldo }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -76,7 +76,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Data Pengguna</span>
-                                <span class="info-box-number"></span>
+                                <span class="info-box-number">{{ $total_pengguna }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -116,7 +116,7 @@
                     <!-- right col -->
 
                     <!-- Left col -->
-                    <section class="col-lg-8">
+                    {{-- <section class="col-lg-8">
                         <div class="card">
                             <div class="card-header with-border">
                                 <h3 class="card-title">
@@ -146,7 +146,7 @@
                             <!-- ./box-body -->
                         </div>
                         <!-- /.box -->
-                    </section>
+                    </section> --}}
                     <!-- /.Left col -->
                 </div>
 

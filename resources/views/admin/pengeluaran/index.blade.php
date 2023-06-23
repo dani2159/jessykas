@@ -45,6 +45,8 @@
                                         <tr>
                                             <th>#</th>
                                             <th>No. Expenditure</th>
+                                            <th>Kode Beban</th>
+                                            <th>Nama Beban</th>
                                             <th>Tanggal</th>
                                             <th>Keterangan</th>
                                             <th>Nominal</th>
@@ -56,6 +58,8 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $item->no_expenditure }}</td>
+                                                <td>{{ $item->kode_beban }}</td>
+                                                <td>{{ $item->nama_beban }}</td>
                                                 <td>{{ Tgl_Indo($item->tanggal_pengeluaran) }}</td>
                                                 <td>{{ $item->keterangan }}</td>
                                                 <td>Rp. {{ number_format($item->jumlah_pengeluaran, 0, ',', '.') }}</td>
@@ -99,6 +103,16 @@
                                 readonly value="{{ $no_expenditure }}" placeholder="Masukkan No expenditure">
                         </div>
                         <div class="form-group">
+                            <label for="beban"><span class="text-danger">*</span> Beban</label>
+                            <select name="kode_beban" id="beban" class="form-control" required>
+                                <option value="">-- Pilih Beban --</option>
+                                @foreach ($beban as $item)
+                                    <option value="{{ $item->kode_beban }}">{{ $item->kode_beban }} -
+                                        {{ $item->nama_beban }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="tanggal"><span class="text-danger">*</span> Tanggal</label>
                             <input type="date" class="form-control" id="tanggal" name="tanggal" required
                                 placeholder="Masukkan Tanggal pengeluaran KAS">
@@ -117,7 +131,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-dismiss="modal"><span class="fa fa-ban"></span>
+                        <button type="button" class="btn btn-light" data-dismiss="modal"><span
+                                class="fa fa-ban"></span>
                             Batal</button>
                         <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span> Simpan</button>
                     </div>
@@ -143,6 +158,16 @@
                             <label for="no_expenditure"><span class="text-danger">*</span> No. expenditure</label>
                             <input type="text" class="form-control" id="no_incomeu" name="no_expenditure" required
                                 readonly value="{{ $no_expenditure }}" placeholder="Masukkan No. expenditure">
+                        </div>
+                        <div class="form-group">
+                            <label for="beban"><span class="text-danger">*</span> Beban</label>
+                            <select name="kode_beban" id="bebanu" class="form-control" required>
+                                <option value="">-- Pilih Beban --</option>
+                                @foreach ($beban as $item)
+                                    <option value="{{ $item->kode_beban }}">{{ $item->kode_beban }} -
+                                        {{ $item->nama_beban }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="tanggal"><span class="text-danger">*</span> Tanggal</label>
@@ -321,6 +346,7 @@
         function ubahData(item) {
             $('#id').val(item.id);
             $('#no_expenditureu').val(item.no_expenditure);
+            $('#bebanu').val(item.kode_beban).trigger('change');
             $('#tanggalu').val(item.tanggal_pengeluaran);
             $('#keteranganu').val(item.keterangan);
             $('#jumlah_pengeluaranu').val(item.jumlah_pengeluaran);

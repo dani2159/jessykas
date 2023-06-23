@@ -1,52 +1,26 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Penerimaan;
 use App\Models\Pendapatan;
-use Carbon\Carbon;
 
-class PenerimaanController extends Controller
+class PendapatanController extends Controller
 {
     public function index()
     {
+        $data['list'] = Pendapatan::all();
 
-        $latest = Penerimaan::latest()->first();
-        $no = 1;
-
-        if($latest){
-            $no = intval(substr($latest->no_income, 1, 3)) + 1;
-        }
-
-        $currentDate = Carbon::now();
-        $romanMonth = $currentDate->format('n');
-        $romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-        $formattedMonth = $romanNumerals[$romanMonth - 1];
-        $formattedYear = $currentDate->format('Y');
-
-        $data['no_income'] = 'I' . str_pad($no, 3, '0', STR_PAD_LEFT) . '/' . $formattedMonth . '/' . $formattedYear;
-
-
-        $data['list'] = Penerimaan::join('tb_pendapatan', 'tb_pendapatan.kode_pendapatan', '=', 'tb_penerimaan.kode_pendapatan')
-        ->select('tb_penerimaan.*', 'tb_pendapatan.kode_pendapatan', 'tb_pendapatan.nama_pendapatan')
-        ->get();
-
-        $data['pendapatan'] = Pendapatan::all();
-
-        return view('admin.penerimaan.index', $data);
+        return view('admin.pendapatan.index', $data);
 
     }
 
     public function store(Request $request)
     {
-        $data = new Penerimaan;
-        $data->no_income = $request->no_income;
+        $data = new Pendapatan;
         $data->kode_pendapatan = $request->kode_pendapatan;
-        $data->tanggal_penerimaan = $request->tanggal;
+        $data->nama_pendapatan = $request->nama_pendapatan;
         $data->keterangan = $request->keterangan;
-        $data->jumlah_penerimaan = $request->jumlah_penerimaan;
 
         if($data->save()){
             $result['status'] = true;
@@ -55,19 +29,16 @@ class PenerimaanController extends Controller
             $result['status'] = false;
             $result['message'] = 'Data gagal disimpan.';
         }
-
         return $result;
     }
 
     public function update(Request $request)
     {
-        $data = Penerimaan::find($request->id);
+        $data = Pendapatan::find($request->id);
         if($data){
-            $data->no_income = $request->no_income;
             $data->kode_pendapatan = $request->kode_pendapatan;
-            $data->tanggal_penerimaan = $request->tanggal;
+            $data->nama_pendapatan = $request->nama_pendapatan;
             $data->keterangan = $request->keterangan;
-            $data->jumlah_penerimaan = $request->jumlah_penerimaan;
             if($data->save()){
                 $result['status'] = true;
                 $result['message'] = 'Data berhasil diubah.';
@@ -79,13 +50,12 @@ class PenerimaanController extends Controller
             $result['status'] = false;
             $result['message'] = 'Data tidak ditemukan.';
         }
-
         return $result;
     }
 
     public function destroy(Request $request)
     {
-        $data = Penerimaan::find($request->id);
+        $data = Pendapatan::find($request->id);
 
         if($data->delete()){
             $result['status'] = true;
@@ -94,8 +64,6 @@ class PenerimaanController extends Controller
             $result['status'] = false;
             $result['message'] = 'Data gagal dihapus.';
         }
-
         return $result;
     }
-
 }

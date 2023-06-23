@@ -1,48 +1,26 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Pengeluaran;
 use App\Models\Beban;
-use Carbon\Carbon;
 
-class PengeluaranController extends Controller
+class BebanController extends Controller
 {
     public function index()
     {
-        $latest = Pengeluaran::latest()->first();
-        $no = 1;
+        $data['list'] = Beban::all();
 
-        if($latest){
-            $no = intval(substr($latest->no_expenditure, 1, 3)) + 1;
-        }
-
-        $currentDate = Carbon::now();
-        $romanMonth = $currentDate->format('n');
-        $romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-        $formattedMonth = $romanNumerals[$romanMonth - 1];
-        $formattedYear = $currentDate->format('Y');
-
-        $data['no_expenditure'] = 'E' . str_pad($no, 3, '0', STR_PAD_LEFT) . '/' . $formattedMonth . '/' . $formattedYear;
-        $data['beban'] = Beban::all();
-
-        $data['list'] = Pengeluaran::join('tb_beban', 'tb_beban.kode_beban', '=', 'tb_pengeluaran.kode_beban')
-        ->select('tb_pengeluaran.*', 'tb_beban.kode_beban', 'tb_beban.nama_beban')
-        ->get();
-        return view('admin.pengeluaran.index', $data);
+        return view('admin.databeban.index', $data);
 
     }
 
     public function store(Request $request)
     {
-        $data = new pengeluaran;
-        $data->no_expenditure = $request->no_expenditure;
+        $data = new Beban;
         $data->kode_beban = $request->kode_beban;
-        $data->tanggal_pengeluaran = $request->tanggal;
+        $data->nama_beban = $request->nama_beban;
         $data->keterangan = $request->keterangan;
-        $data->jumlah_pengeluaran = $request->jumlah_pengeluaran;
 
         if($data->save()){
             $result['status'] = true;
@@ -51,18 +29,16 @@ class PengeluaranController extends Controller
             $result['status'] = false;
             $result['message'] = 'Data gagal disimpan.';
         }
-
         return $result;
     }
 
     public function update(Request $request)
     {
-        $data = Pengeluaran::find($request->id);
+        $data = Beban::find($request->id);
         if($data){
-            $data->tanggal_pengeluaran = $request->tanggal;
             $data->kode_beban = $request->kode_beban;
+            $data->nama_beban = $request->nama;
             $data->keterangan = $request->keterangan;
-            $data->jumlah_pengeluaran = $request->jumlah_pengeluaran;
             if($data->save()){
                 $result['status'] = true;
                 $result['message'] = 'Data berhasil diubah.';
@@ -74,13 +50,12 @@ class PengeluaranController extends Controller
             $result['status'] = false;
             $result['message'] = 'Data tidak ditemukan.';
         }
-
         return $result;
     }
 
     public function destroy(Request $request)
     {
-        $data = Pengeluaran::find($request->id);
+        $data = Beban::find($request->id);
 
         if($data->delete()){
             $result['status'] = true;
@@ -89,8 +64,6 @@ class PengeluaranController extends Controller
             $result['status'] = false;
             $result['message'] = 'Data gagal dihapus.';
         }
-
         return $result;
     }
-
 }

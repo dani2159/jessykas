@@ -43,10 +43,10 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
+        {{-- <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="{{ asset('assets/img/logo-kas.png') }}" alt="AdminLTELogo"
                 height="120" width="120">
-        </div>
+        </div> --}}
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -98,18 +98,18 @@
                         <li class="nav-header"></li>
                         @if (Auth::user()->role == 'admin')
                             <li class="nav-header">Data Master</li>
-                            {{-- <li class="nav-item">
-                            <a href="{{ route('beban.index') }}" class="nav-link">
-                                <i class="nav-icon 	fas fa-sliders-h"></i>
-                                <p> Data Beban </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-fax"></i>
-                                <p> Data Penerimaan Piutang</p>
-                            </a>
-                        </li> --}}
+                            <li class="nav-item">
+                                <a href="{{ route('beban.index') }}" class="nav-link">
+                                    <i class="nav-icon 	fas fa-sliders-h"></i>
+                                    <p> Data Beban </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('pendapatan.index') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-fax"></i>
+                                    <p> Data Pendapatan</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('pengguna.index') }}" class="nav-link">
                                     <i class="nav-icon fas fa-users"></i>

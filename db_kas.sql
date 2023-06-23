@@ -11,7 +11,7 @@
  Target Server Version : 50734
  File Encoding         : 65001
 
- Date: 19/06/2023 15:54:44
+ Date: 21/06/2023 20:36:33
 */
 
 SET NAMES utf8mb4;
@@ -40,12 +40,35 @@ INSERT INTO `tb_beban` VALUES (2, 'BBNAIR', 'PDAM', 'Pembayaran Air PDAM', '2023
 COMMIT;
 
 -- ----------------------------
+-- Table structure for tb_pendapatan
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_pendapatan`;
+CREATE TABLE `tb_pendapatan` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `kode_pendapatan` varchar(255) NOT NULL,
+  `nama_pendapatan` varchar(100) NOT NULL,
+  `keterangan` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_pendapatan
+-- ----------------------------
+BEGIN;
+INSERT INTO `tb_pendapatan` VALUES (4, 'PD', '001', '001', '2023-06-21 19:59:03', '2023-06-21 19:59:03');
+INSERT INTO `tb_pendapatan` VALUES (5, 'PD02', '002', '002', '2023-06-21 20:30:19', '2023-06-21 20:30:19');
+COMMIT;
+
+-- ----------------------------
 -- Table structure for tb_penerimaan
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_penerimaan`;
 CREATE TABLE `tb_penerimaan` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `no_income` varchar(255) NOT NULL,
+  `kode_pendapatan` varchar(255) DEFAULT NULL,
   `jumlah_penerimaan` int(16) NOT NULL,
   `keterangan` varchar(255) NOT NULL,
   `tanggal_penerimaan` date NOT NULL,
@@ -58,8 +81,8 @@ CREATE TABLE `tb_penerimaan` (
 -- Records of tb_penerimaan
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_penerimaan` VALUES (1, 'I002/VI/2023', 500000, 'Pemasukan Awal Edit', '2023-06-19', '2023-06-19 13:00:33', '2023-06-19 13:15:07');
-INSERT INTO `tb_penerimaan` VALUES (2, 'I001/VI/2023', 1000000, 'Penerimaan 0', '2023-06-01', '2023-06-19 15:38:03', '2023-06-19 15:38:03');
+INSERT INTO `tb_penerimaan` VALUES (1, 'I002/VI/2023', 'PD02', 500000, 'Pemasukan Awal Edit', '2023-06-19', '2023-06-19 13:00:33', '2023-06-21 20:31:57');
+INSERT INTO `tb_penerimaan` VALUES (2, 'I001/VI/2023', 'PD', 1000000, 'Penerimaan 0', '2023-06-01', '2023-06-19 15:38:03', '2023-06-21 20:31:00');
 COMMIT;
 
 -- ----------------------------
@@ -69,6 +92,7 @@ DROP TABLE IF EXISTS `tb_pengeluaran`;
 CREATE TABLE `tb_pengeluaran` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `no_expenditure` varchar(255) NOT NULL,
+  `kode_beban` varchar(255) DEFAULT NULL,
   `jumlah_pengeluaran` int(16) NOT NULL,
   `keterangan` varchar(255) NOT NULL,
   `tanggal_pengeluaran` date NOT NULL,
@@ -81,7 +105,7 @@ CREATE TABLE `tb_pengeluaran` (
 -- Records of tb_pengeluaran
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_pengeluaran` VALUES (1, 'E001/VI/2023', 5000000, 'Pengeluaran 1 Edit', '2023-06-19', '2023-06-19 13:23:34', '2023-06-19 13:23:42');
+INSERT INTO `tb_pengeluaran` VALUES (1, 'E001/VI/2023', 'BBNAIR', 5000000, 'Pengeluaran 1 Edit', '2023-06-19', '2023-06-19 13:23:34', '2023-06-21 20:36:04');
 COMMIT;
 
 -- ----------------------------

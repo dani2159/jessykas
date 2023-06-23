@@ -1,4 +1,4 @@
-@extends('admin.layout.index', ['title' => 'Laporan Penerimaan KAS'])
+@extends('admin.layout.index', ['title' => 'Laporan KAS'])
 
 
 @section('css')
@@ -14,14 +14,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Laporan Penerimaan KAS</h1>
+                        <h1 class="m-0">Laporan KAS</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
                                 <a href="#">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active">Laporan Penerimaan KAS</li>
+                            <li class="breadcrumb-item active">Laporan KAS</li>
                         </ol>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Laporan Penerimaan KAS</h3>
+                                <h3 class="card-title">Laporan KAS</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -51,7 +51,19 @@
                                                 <input type="date" class="form-control" name="to_date">
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 ">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Filter</label>
+                                                <select class="form-control" name="filter_data">
+                                                    <option value="all">Semua</option>
+                                                    <option value="penerimaan">Penerimaan</option>
+                                                    <option value="pengeluaran">Pengeluaran</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-3 ">
                                             <label>&nbsp;</label>
                                             <div class="form-group">
 
@@ -70,7 +82,9 @@
                                             <th>No. Income</th>
                                             <th>Tanggal</th>
                                             <th>Keterangan</th>
-                                            <th>Nominal</th>
+                                            <th>Debit</th>
+                                            <th>Kredit</th>
+                                            <th>Saldo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -109,8 +123,11 @@
                 e.preventDefault();
                 var from = $('input[name="from_date"]').val();
                 var to = $('input[name="to_date"]').val();
+                var filter_data = $('select[name="filter_data"]').val();
+
                 table.columns(1).search(from).draw();
                 table.columns(2).search(to).draw();
+                table.columns(3).search(filter_data).draw();
             });
 
             // DataTable
@@ -125,7 +142,7 @@
                         className: 'btn btn-success',
                         text: '<i class="fas fa-file-excel"></i> Excel',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5, 6]
                         }
                     },
                     {
@@ -133,7 +150,7 @@
                         className: 'btn btn-danger',
                         text: '<i class="fas fa-file-pdf"></i> PDF',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5, 6]
 
                         }
                     },
@@ -143,17 +160,18 @@
                         text: '<i class="fas fa-print"></i> Print',
                         layout: 'landscape',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4],
+                            columns: [0, 1, 2, 3, 4, 5, 6]
                         }
                     },
                 ],
                 ajax: {
-                    url: "{{ route('laporan.penerimaan.list') }}",
+                    url: "{{ route('laporan.list') }}",
                     type: 'GET',
                     dataType: 'json',
                     data: function(d) {
                         d.from_date = $('input[name="from_date"]').val();
                         d.to_date = $('input[name="to_date"]').val();
+                        d.filter_data = $('select[name="filter_data"]').val();
                     }
                 },
                 columns: [{
@@ -161,21 +179,30 @@
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'no_income',
-                        name: 'no_income'
+                        data: 'no_transaksi',
+                        name: 'no_transaksi'
                     },
                     {
-                        data: 'tanggal_penerimaan',
-                        name: 'tanggal_penerimaan'
+                        data: 'tanggal',
+                        name: 'tanggal'
                     },
                     {
                         data: 'keterangan',
                         name: 'keterangan'
                     },
                     {
-                        data: 'jumlah_penerimaan',
-                        name: 'jumlah_penerimaan'
-                    }
+                        data: 'penerimaan',
+                        name: 'penerimaan'
+                    },
+                    {
+                        data: 'pengeluaran',
+                        name: 'pengeluaran'
+                    },
+                    {
+                        data: 'saldo',
+                        name: 'saldo'
+                    },
+
                 ],
                 language: {
                     processing: "Sedang memproses...",

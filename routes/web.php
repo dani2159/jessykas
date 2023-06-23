@@ -2,12 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Akuncontroller;
 use App\Http\Controllers\Penerimaancontroller;
 use App\Http\Controllers\Pengeluarancontroller;
-use App\Http\Controllers\Datapenggunacontroller;
-use App\Http\Controllers\BebanController;
-use App\Http\Controllers\PendapatanController;
-use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\DatapenggunaController
+;use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,17 +30,17 @@ Route::group(['middleware' => 'Userauth'], function () {
 
 
         Route::prefix('/data-penerimaan')->group(function () {
-            Route::get('/', [PenerimaanController::class, 'index'])->name('penerimaan.index');
-            Route::post('/insert', [PenerimaanController::class, 'store'])->name('penerimaan.insert');
-            Route::put('/update', [PenerimaanController::class, 'update'])->name('penerimaan.update');
-            Route::delete('/delete', [PenerimaanController::class, 'destroy'])->name('penerimaan.delete');
+            Route::get('/', [Penerimaancontroller::class, 'index'])->name('penerimaan.index');
+            Route::post('/insert', [Penerimaancontroller::class, 'store'])->name('penerimaan.insert');
+            Route::put('/update', [Penerimaancontroller::class, 'update'])->name('penerimaan.update');
+            Route::delete('/delete', [Penerimaancontroller::class, 'destroy'])->name('penerimaan.delete');
 
         });
         Route::prefix('/data-pengeluaran')->group(function () {
-            Route::get('/', [Pengeluarancontroller::class, 'index'])->name('pengeluaran.index');
-            Route::post('/insert', [Pengeluarancontroller::class, 'store'])->name('pengeluaran.insert');
-            Route::put('/update', [Pengeluarancontroller::class, 'update'])->name('pengeluaran.update');
-            Route::delete('/delete', [Pengeluarancontroller::class, 'destroy'])->name('pengeluaran.delete');
+            Route::get('/', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
+            Route::post('/insert', [pengeluaranController::class, 'store'])->name('pengeluaran.insert');
+            Route::put('/update', [pengeluaranController::class, 'update'])->name('pengeluaran.update');
+            Route::delete('/delete', [PengeluaranController::class, 'destroy'])->name('pengeluaran.delete');
 
         });
 
@@ -52,26 +51,17 @@ Route::group(['middleware' => 'Userauth'], function () {
             Route::delete('/delete', [Datapenggunacontroller::class, 'destroy'])->name('pengguna.delete');
         });
 
-        Route::prefix('/data-beban')->group(function () {
-            Route::get('/', [BebanController::class, 'index'])->name('beban.index');
-            Route::post('/insert', [BebanController::class, 'store'])->name('beban.insert');
-            Route::put('/update', [BebanController::class, 'update'])->name('beban.update');
-            Route::delete('/delete', [BebanController::class, 'destroy'])->name('beban.delete');
-        });
-
-        Route::prefix('/data-pendapatan')->group(function () {
-            Route::get('/', [PendapatanController::class, 'index'])->name('pendapatan.index');
-            Route::post('/insert', [PendapatanController::class, 'store'])->name('pendapatan.insert');
-            Route::put('/update', [PendapatanController::class, 'update'])->name('pendapatan.update');
-            Route::delete('/delete', [PendapatanController::class, 'destroy'])->name('pendapatan.delete');
+        Route::prefix('/data-akun')->group(function () {
+            Route::get('/', [AkunController::class, 'index'])->name('akun.index');
+            Route::post('/insert', [AkunController::class, 'store'])->name('akun.insert');
+            Route::put('/update', [AkunController::class, 'update'])->name('akun.update');
+            Route::delete('/delete', [AkunController::class, 'destroy'])->name('akun.delete');
         });
 
 
         Route::group(['prefix' => 'laporan'], function(){
-            Route::get('/laporan-penerimaan', [LaporanController::class, 'laporanPenerimaan'])->name('laporan.penerimaan');
-            Route::get('/laporan-penerimaan/list', [LaporanController::class, 'laporanPenerimaanList'])->name('laporan.penerimaan.list');
-            Route::get('/laporan-pengeluaran', [LaporanController::class, 'laporanPengeluaran'])->name('laporan.pengeluaran');
-            Route::get('/laporan-pengeluaran/list', [LaporanController::class, 'laporanPengeluaranList'])->name('laporan.pengeluaran.list');
+            Route::get('/laporan-kas', [LaporanController::class, 'index'])->name('laporan.index ');
+            Route::get('/laporan-kas/list', [LaporanController::class, 'laporanList'])->name('laporan.list');
 
         });
     // });

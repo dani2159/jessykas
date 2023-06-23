@@ -44,9 +44,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>NO. Income</th>
-                                            <th>Kode Pendapatan</th>
-                                            <th>Nama Pendapatan</th>
+                                            <th>NO. Transaksi</th>
+                                            <th>Kode akun</th>
+                                            <th>Nama akun</th>
                                             <th>Tanggal</th>
                                             <th>Keterangan</th>
                                             <th>Nominal</th>
@@ -57,12 +57,12 @@
                                         @foreach ($list as $key => $item)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $item->no_income }}</td>
-                                                <td>{{ $item->kode_pendapatan }}</td>
-                                                <td>{{ $item->nama_pendapatan }}</td>
-                                                <td>{{ Tgl_Indo($item->tanggal_penerimaan) }}</td>
+                                                <td>{{ $item->no_transaksi }}</td>
+                                                <td>{{ $item->kode_akun }}</td>
+                                                <td>{{ $item->nama_akun }}</td>
+                                                <td>{{ Tgl_Indo($item->tanggal) }}</td>
                                                 <td>{{ $item->keterangan }}</td>
-                                                <td>Rp. {{ number_format($item->jumlah_penerimaan, 0, ',', '.') }}</td>
+                                                <td>Rp. {{ number_format($item->penerimaan, 0, ',', '.') }}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <button class="btn btn-primary btn-sm"
@@ -98,17 +98,17 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="no_income"><span class="text-danger">*</span> No Income</label>
-                            <input type="text" class="form-control" id="no_income" name="no_income" required readonly
-                                value="{{ $no_income }}" placeholder="Masukkan No Income">
+                            <label for="no_transaksi"><span class="text-danger">*</span> No Transaksi</label>
+                            <input type="text" class="form-control" id="no_transaksi" name="no_transaksi" required
+                                readonly value="{{ $no_transaksi }}" placeholder="Masukkan No Income">
                         </div>
                         <div class="form-group">
-                            <label for="pendapatan"><span class="text-danger">*</span> Pendapatan</label>
-                            <select name="kode_pendapatan" id="pendapatan" class="form-control" required>
-                                <option value="">-- Pilih Pendapatan --</option>
-                                @foreach ($pendapatan as $item)
-                                    <option value="{{ $item->kode_pendapatan }}">{{ $item->kode_pendapatan }} -
-                                        {{ $item->nama_pendapatan }}</option>
+                            <label for="akun"><span class="text-danger">*</span> akun</label>
+                            <select name="kode_akun" id="akun" class="form-control" required>
+                                <option value="">-- Pilih Akun --</option>
+                                @foreach ($akun as $item)
+                                    <option value="{{ $item->kode_akun }}">{{ $item->kode_akun }} -
+                                        {{ $item->nama_akun }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -122,9 +122,9 @@
                             <textarea name="keterangan" id="keterangan" class="form-control" required placeholder="Masukkan Keterangan"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="jumlah_penerimaan"><span class="text-danger">*</span> Nominal (Rp.)</label>
-                            <input type="number" name="jumlah_penerimaan" id="jumlah_penerimaan" class="form-control"
-                                required placeholder="Masukkan Nominal Jumlah Penerimaan KAS" min="1">
+                            <label for="penerimaan"><span class="text-danger">*</span> Nominal (Rp.)</label>
+                            <input type="number" name="penerimaan" id="penerimaan" class="form-control" required
+                                placeholder="Masukkan Nominal Jumlah Penerimaan KAS" min="1">
                             <small style="color:red;font-size: 80%;font-weight: 400;">Masukkan nominal tanpa titik atau
                                 koma</small>
                         </div>
@@ -155,17 +155,17 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="no_income"><span class="text-danger">*</span> No Income</label>
-                            <input type="text" class="form-control" id="no_incomeu" name="no_income" required
-                                readonly value="{{ $no_income }}" placeholder="Masukkan No Income">
+                            <label for="no_transaksiu"><span class="text-danger">*</span> No Transaksi</label>
+                            <input type="text" class="form-control" id="no_transaksiu" name="no_transaksi" required
+                                readonly value="{{ $no_transaksi }}" placeholder="Masukkan No Income">
                         </div>
                         <div class="form-group">
-                            <label for="pendapatanu"><span class="text-danger">*</span> Pendapatan</label>
-                            <select name="kode_pendapatan" id="pendapatanu" class="form-control" required>
-                                <option value="">-- Pilih Pendapatan --</option>
-                                @foreach ($pendapatan as $item)
-                                    <option value="{{ $item->kode_pendapatan }}">{{ $item->kode_pendapatan }} -
-                                        {{ $item->nama_pendapatan }}</option>
+                            <label for="kode_akunu"><span class="text-danger">*</span> akun</label>
+                            <select name="kode_akun" id="kode_akunu" class="form-control" required>
+                                <option value="">-- Pilih Akun --</option>
+                                @foreach ($akun as $item)
+                                    <option value="{{ $item->kode_akun }}">{{ $item->kode_akun }} -
+                                        {{ $item->nama_akun }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -175,13 +175,13 @@
                                 placeholder="Masukkan Tanggal Penerimaan KAS">
                         </div>
                         <div class="form-group">
-                            <label for="keterangan"><span class="text-danger">*</span> Keterangan</label>
+                            <label for="keteranganu"><span class="text-danger">*</span> Keterangan</label>
                             <textarea name="keterangan" id="keteranganu" class="form-control" required placeholder="Masukkan Keterangan"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="jumlah_penerimaan"><span class="text-danger">*</span> Nominal (Rp.)</label>
-                            <input type="number" name="jumlah_penerimaan" id="jumlah_penerimaanu" class="form-control"
-                                required placeholder="Masukkan Nominal Jumlah Penerimaan KAS" min="1">
+                            <label for="penerimaanu"><span class="text-danger">*</span> Nominal (Rp.)</label>
+                            <input type="number" name="penerimaan" id="penerimaanu" class="form-control" required
+                                placeholder="Masukkan Nominal Jumlah Penerimaan KAS" min="1">
                             <small style="color:red;font-size: 80%;font-weight: 400;">Masukkan nominal tanpa titik atau
                                 koma</small>
                         </div>
@@ -344,11 +344,11 @@
 
         function ubahData(item) {
             $('#id').val(item.id);
-            $('#no_incomeu').val(item.no_income);
-            $('#tanggalu').val(item.tanggal_penerimaan);
+            $('#no_transaksiu').val(item.no_transaksi);
+            $('#tanggalu').val(item.tanggal);
             $('#keteranganu').val(item.keterangan);
-            $('#jumlah_penerimaanu').val(item.jumlah_penerimaan);
-            $('#pendapatanu').val(item.kode_pendapatan).trigger('change');
+            $('#penerimaanu').val(item.penerimaan);
+            $('#kode_akunu').val(item.kode_akun).trigger('change');
             $('#updateModal').modal({
                 backdrop: 'static',
                 keyboard: false

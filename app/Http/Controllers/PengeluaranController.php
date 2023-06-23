@@ -3,47 +3,47 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-use App\Models\Pengeluaran;
-use App\Models\Beban;
+use App\Models\Transaksi;
+use App\Models\Akun;
 use Carbon\Carbon;
 
 class PengeluaranController extends Controller
 {
     public function index()
     {
-        $latest = Pengeluaran::latest()->first();
+
+        $latest = Transaksi::latest()->first();
         $no = 1;
 
-        if($latest){
-            $no = intval(substr($latest->no_expenditure, 1, 3)) + 1;
+        if ($latest) {
+            $no = intval(substr($latest->no_transaksi, 3)) + 1;
         }
 
-        $currentDate = Carbon::now();
-        $romanMonth = $currentDate->format('n');
-        $romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-        $formattedMonth = $romanNumerals[$romanMonth - 1];
-        $formattedYear = $currentDate->format('Y');
+        $data['no_transaksi'] = 'TRK' . str_pad($no, 6, '0', STR_PAD_LEFT);
 
-        $data['no_expenditure'] = 'E' . str_pad($no, 3, '0', STR_PAD_LEFT) . '/' . $formattedMonth . '/' . $formattedYear;
-        $data['beban'] = Beban::all();
 
-        $data['list'] = Pengeluaran::join('tb_beban', 'tb_beban.kode_beban', '=', 'tb_pengeluaran.kode_beban')
-        ->select('tb_pengeluaran.*', 'tb_beban.kode_beban', 'tb_beban.nama_beban')
+        $data['list'] = Transaksi::join('tb_akun', 'tb_akun.kode_akun', '=', 'tb_transaksi.kode_akun')
+        ->select('tb_transaksi.*', 'tb_akun.kode_akun', 'tb_akun.nama_akun')
+        ->whereNotNull('tb_transaksi.pengeluaran')
         ->get();
+
+        $data['akun'] = Akun::all();
+
         return view('admin.pengeluaran.index', $data);
 
     }
 
     public function store(Request $request)
     {
-        $data = new pengeluaran;
-        $data->no_expenditure = $request->no_expenditure;
-        $data->kode_beban = $request->kode_beban;
-        $data->tanggal_pengeluaran = $request->tanggal;
+        $data = new Transaksi;
+        $data->no_transaksi = $request->no_transaksi;
+        $data->kode_akun = $request->kode_akun;
+        $data->tanggal = $request->tanggal;
         $data->keterangan = $request->keterangan;
-        $data->jumlah_pengeluaran = $request->jumlah_pengeluaran;
-
+        $data->pengeluaran = $request->pengeluaran;
+        $data->id_pengguna = Auth::user()->id;
         if($data->save()){
             $result['status'] = true;
             $result['message'] = 'Data berhasil disimpan.';
@@ -57,12 +57,14 @@ class PengeluaranController extends Controller
 
     public function update(Request $request)
     {
-        $data = Pengeluaran::find($request->id);
+        $data = Transaksi::find($request->id);
         if($data){
-            $data->tanggal_pengeluaran = $request->tanggal;
-            $data->kode_beban = $request->kode_beban;
+            $data->no_transaksi = $request->no_transaksi;
+            $data->kode_akun = $request->kode_akun;
+            $data->tanggal = $request->tanggal;
             $data->keterangan = $request->keterangan;
-            $data->jumlah_pengeluaran = $request->jumlah_pengeluaran;
+            $data->pengeluaran = $request->pengeluaran;
+            $data->id_pengguna = Auth::user()->id;
             if($data->save()){
                 $result['status'] = true;
                 $result['message'] = 'Data berhasil diubah.';
@@ -80,7 +82,7 @@ class PengeluaranController extends Controller
 
     public function destroy(Request $request)
     {
-        $data = Pengeluaran::find($request->id);
+        $data = Transaksi::find($request->id);
 
         if($data->delete()){
             $result['status'] = true;

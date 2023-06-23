@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Penerimaan;
-use App\Models\Pengeluaran;
+
+use App\Models\Transaksi;
 
 
 use Carbon\Carbon;
@@ -20,27 +20,19 @@ class DashboardController extends Controller
     public function index()
     {
         //total penerimaan
-        $data['total_penerimaan'] = Penerimaan::sum('jumlah_penerimaan');
+        $data['total_penerimaan'] = Transaksi::whereNotNull('penerimaan')->sum('penerimaan');
         //total pengeluaran
-        $data['total_pengeluaran'] = Pengeluaran::sum('jumlah_pengeluaran');
+        $data['total_pengeluaran'] = Transaksi::whereNotNull('pengeluaran')->sum('pengeluaran');
         //total saldo
         $data['total_saldo'] = $data['total_penerimaan'] - $data['total_pengeluaran'];
         //total penerimaan perbulan
-        $data['penerimaan_perbulan'] = Penerimaan::select(DB::raw('MONTH(tanggal_penerimaan) as bulan'), DB::raw('SUM(jumlah_penerimaan) as total'))
-            ->groupBy(DB::raw('MONTH(tanggal_penerimaan)'))
-            ->get();
+        $data['penerimaan_perbulan'] = 0;
         //total pengeluaran perbulan
-        $data['pengeluaran_perbulan'] = Pengeluaran::select(DB::raw('MONTH(tanggal_pengeluaran) as bulan'), DB::raw('SUM(jumlah_pengeluaran) as total'))
-            ->groupBy(DB::raw('MONTH(tanggal_pengeluaran)'))
-            ->get();
+        $data['pengeluaran_perbulan'] = 0;
         //total penerimaan pertahun
-        $data['penerimaan_pertahun'] = Penerimaan::select(DB::raw('YEAR(tanggal_penerimaan) as tahun'), DB::raw('SUM(jumlah_penerimaan) as total'))
-            ->groupBy(DB::raw('YEAR(tanggal_penerimaan)'))
-            ->get();
+        $data['penerimaan_pertahun'] = 0;
         //total pengeluaran pertahun
-        $data['pengeluaran_pertahun'] = Pengeluaran::select(DB::raw('YEAR(tanggal_pengeluaran) as tahun'), DB::raw('SUM(jumlah_pengeluaran) as total'))
-            ->groupBy(DB::raw('YEAR(tanggal_pengeluaran)'))
-            ->get();
+        $data['pengeluaran_pertahun'] = 0;
         //data pengguna
         $data['total_pengguna'] = DB::table('tb_users')->count();
 

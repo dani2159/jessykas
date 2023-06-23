@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Pengeluaran extends Authenticatable
+class Transaksi extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'tb_pengeluaran';
+    protected $table = 'tb_transaksi';
     protected $primaryKey = 'id';
 
     protected $guarded = [];

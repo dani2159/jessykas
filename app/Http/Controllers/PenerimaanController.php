@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-use App\Models\Penerimaan;
-use App\Models\Pendapatan;
+use App\Models\Transaksi;
+use App\Models\Akun;
 use Carbon\Carbon;
 
 class PenerimaanController extends Controller
@@ -13,27 +14,24 @@ class PenerimaanController extends Controller
     public function index()
     {
 
-        $latest = Penerimaan::latest()->first();
+        $latest = Transaksi::latest()->first();
         $no = 1;
 
-        if($latest){
-            $no = intval(substr($latest->no_income, 1, 3)) + 1;
+        if ($latest) {
+            $no = intval(substr($latest->no_transaksi, 3)) + 1;
         }
 
-        $currentDate = Carbon::now();
-        $romanMonth = $currentDate->format('n');
-        $romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-        $formattedMonth = $romanNumerals[$romanMonth - 1];
-        $formattedYear = $currentDate->format('Y');
-
-        $data['no_income'] = 'I' . str_pad($no, 3, '0', STR_PAD_LEFT) . '/' . $formattedMonth . '/' . $formattedYear;
+        $data['no_transaksi'] = 'TRK' . str_pad($no, 6, '0', STR_PAD_LEFT);
 
 
-        $data['list'] = Penerimaan::join('tb_pendapatan', 'tb_pendapatan.kode_pendapatan', '=', 'tb_penerimaan.kode_pendapatan')
-        ->select('tb_penerimaan.*', 'tb_pendapatan.kode_pendapatan', 'tb_pendapatan.nama_pendapatan')
+       //tampilkan list data transaksi penerimaan
+    $data['list'] = Transaksi::join('tb_akun', 'tb_akun.kode_akun', '=', 'tb_transaksi.kode_akun')
+        ->select('tb_transaksi.*', 'tb_akun.kode_akun', 'tb_akun.nama_akun')
+        ->whereNotNull('tb_transaksi.penerimaan')
         ->get();
 
-        $data['pendapatan'] = Pendapatan::all();
+
+        $data['akun'] = Akun::all();
 
         return view('admin.penerimaan.index', $data);
 
@@ -41,12 +39,13 @@ class PenerimaanController extends Controller
 
     public function store(Request $request)
     {
-        $data = new Penerimaan;
-        $data->no_income = $request->no_income;
-        $data->kode_pendapatan = $request->kode_pendapatan;
-        $data->tanggal_penerimaan = $request->tanggal;
+        $data = new Transaksi;
+        $data->no_transaksi = $request->no_transaksi;
+        $data->kode_akun = $request->kode_akun;
+        $data->tanggal = $request->tanggal;
         $data->keterangan = $request->keterangan;
-        $data->jumlah_penerimaan = $request->jumlah_penerimaan;
+        $data->penerimaan = $request->penerimaan;
+        $data->id_pengguna = Auth::user()->id;
 
         if($data->save()){
             $result['status'] = true;
@@ -61,13 +60,14 @@ class PenerimaanController extends Controller
 
     public function update(Request $request)
     {
-        $data = Penerimaan::find($request->id);
+        $data = Transaksi::find($request->id);
         if($data){
-            $data->no_income = $request->no_income;
-            $data->kode_pendapatan = $request->kode_pendapatan;
-            $data->tanggal_penerimaan = $request->tanggal;
+            $data->no_transaksi = $request->no_transaksi;
+            $data->kode_akun = $request->kode_akun;
+            $data->tanggal = $request->tanggal;
             $data->keterangan = $request->keterangan;
-            $data->jumlah_penerimaan = $request->jumlah_penerimaan;
+            $data->penerimaan = $request->penerimaan;
+            $data->id_pengguna = Auth::user()->id;
             if($data->save()){
                 $result['status'] = true;
                 $result['message'] = 'Data berhasil diubah.';
@@ -85,7 +85,7 @@ class PenerimaanController extends Controller
 
     public function destroy(Request $request)
     {
-        $data = Penerimaan::find($request->id);
+        $data = Transaksi::find($request->id);
 
         if($data->delete()){
             $result['status'] = true;

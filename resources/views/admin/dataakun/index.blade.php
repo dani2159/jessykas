@@ -1,4 +1,4 @@
-@extends('admin.layout.index', ['title' => 'Data Beban'])
+@extends('admin.layout.index', ['title' => 'Data Akun'])
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -13,14 +13,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Data Beban</h1>
+                        <h1 class="m-0">Data Akun</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
                                 <a href="#">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active">Data Beban</li>
+                            <li class="breadcrumb-item active">Data Akun</li>
                         </ol>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                             <div class="card-header">
                                 <button class="float-right btn btn-primary btn-sm" data-toggle="modal"
                                     data-target="#addModal" data-backdrop="static" data-keyboard="false"><span
-                                        class="fa fa-plus"></span> Tambah Data Beban</button>
+                                        class="fa fa-plus"></span> Tambah Data Akun</button>
                             </div>
                             <div class="card-body">
                                 <table class="table table-bordered table-striped table-hover dataTable no-footer"
@@ -42,9 +42,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Kode Beban</th>
-                                            <th>Nama Beban</th>
-                                            <th>Keterangan</th>
+                                            <th>Kode akun</th>
+                                            <th>Nama akun</th>
+                                            <th>Kelompok Akun</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -52,9 +52,9 @@
                                         @foreach ($list as $key => $item)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $item->kode_beban }}</td>
-                                                <td>{{ $item->nama_beban }}</td>
-                                                <td>{{ $item->keterangan }}</td>
+                                                <td>{{ $item->kode_akun }}</td>
+                                                <td>{{ $item->nama_akun }}</td>
+                                                <td>{{ $item->kelompok_akun }}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <button class="btn btn-primary btn-sm"
@@ -81,25 +81,25 @@
             <form action="javascript:void(0)" id="formInsert" method="POST">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">Tambah Data Beban</h5>
+                        <h5 class="modal-title" id="addModalLabel">Tambah Data akun</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="kode_beban"><span class="text-danger">*</span> Kode Beban</label>
-                            <input type="text" class="form-control" id="kode_beban" name="kode_beban" required
-                                placeholder="Masukkan Kode Beban">
+                            <label for="kode_akun"><span class="text-danger">*</span> Kode akun</label>
+                            <input type="text" class="form-control" id="kode_akun" name="kode_akun" required
+                                placeholder="Masukkan Kode akun">
                         </div>
                         <div class="form-group">
-                            <label for="nama_beban"><span class="text-danger">*</span> Nama Beban</label>
-                            <input type="text" class="form-control" id="nama_beban" name="nama_beban" required
-                                placeholder="Masukkan Nama Beban">
+                            <label for="nama_akun"><span class="text-danger">*</span> Nama akun</label>
+                            <input type="text" class="form-control" id="nama_akun" name="nama_akun" required
+                                placeholder="Masukkan Nama akun">
                         </div>
                         <div class="form-group">
-                            <label for="keterangan"><span class="text-danger">*</span> Keterangan</label>
-                            <textarea name="keterangan" id="keterangan" class="form-control" required placeholder="Masukkan Keterangan"></textarea>
+                            <label for="kelompok_akun"><span class="text-danger">*</span> Kelompok Akun</label>
+                            <textarea name="kelompok_akun" id="kelompok_akun" class="form-control" required placeholder="Masukkan Kelompok Akun"></textarea>
                         </div>
 
                     </div>
@@ -119,25 +119,26 @@
                 <input type="hidden" name="id" id="id" required>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="updateModalLabel">Ubah Data Beban</h5>
+                        <h5 class="modal-title" id="updateModalLabel">Ubah Data akun</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="kode_bebanu"><span class="text-danger">*</span> Kode Beban</label>
-                            <input type="text" class="form-control" id="kode_bebanu" name="kode_beban" required
-                                placeholder="Masukkan Kode Beban">
+                            <label for="kode_akunu"><span class="text-danger">*</span> Kode akun</label>
+                            <input type="text" class="form-control" id="kode_akunu" name="kode_akun" required
+                                placeholder="Masukkan Kode akun">
                         </div>
                         <div class="form-group">
-                            <label for="nama_bebanu"><span class="text-danger">*</span> Nama Beban</label>
-                            <input type="text" class="form-control" id="nama_bebanu" name="nama_beban" required
-                                placeholder="Masukkan Nama Beban">
+                            <label for="nama_akunu"><span class="text-danger">*</span> Nama akun</label>
+                            <input type="text" class="form-control" id="nama_akunu" name="nama_akun" required
+                                placeholder="Masukkan Nama akun">
                         </div>
                         <div class="form-group">
-                            <label for="keteranganu"><span class="text-danger">*</span> Keterangan</label>
-                            <textarea name="keterangan" id="keteranganu" class="form-control" required placeholder="Masukkan Keterangan"></textarea>
+                            <label for="kelompok_akunu"><span class="text-danger">*</span> Kelompok Akun</label>
+                            <textarea name="kelompok_akun" id="kelompok_akunu" class="form-control" required
+                                placeholder="Masukkan Kelompok Akun"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -173,7 +174,7 @@
                 var formData = new FormData(this);
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('beban.insert') }}",
+                    url: "{{ route('akun.insert') }}",
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
@@ -211,7 +212,7 @@
                 var formData = new FormData(this);
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('beban.update') }}",
+                    url: "{{ route('akun.update') }}",
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
@@ -258,7 +259,7 @@
                         $.LoadingOverlay("show");
                         $.ajax({
                             method: 'DELETE',
-                            url: "{{ route('beban.delete') }}",
+                            url: "{{ route('akun.delete') }}",
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
@@ -293,9 +294,9 @@
 
         function ubahData(item) {
             $('#id').val(item.id);
-            $('#nama_bebanu').val(item.nama_beban);
-            $('#kode_bebanu').val(item.kode_beban);
-            $('#keteranganu').val(item.keterangan);
+            $('#nama_akunu').val(item.nama_akun);
+            $('#kode_akunu').val(item.kode_akun);
+            $('#kelompok_akunu').val(item.kelompok_akun);
             $('#updateModal').modal({
                 backdrop: 'static',
                 keyboard: false

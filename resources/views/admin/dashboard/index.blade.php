@@ -35,7 +35,8 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Penerimaan</span>
-                                <span class="info-box-number">{{ $total_penerimaan }}</span>
+                                <span class="info-box-number">Rp.
+                                    {{ number_format($total_penerimaan, 0, ',', '.') }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -49,7 +50,8 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Pengeluaran</span>
-                                <span class="info-box-number">{{ $total_pengeluaran }}</span>
+                                <span class="info-box-number">Rp.
+                                    {{ number_format($total_pengeluaran, 0, ',', '.') }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -62,7 +64,8 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Saldo</span>
-                                <span class="info-box-number">{{ $total_saldo }}</span>
+                                <span class="info-box-number">Rp.
+                                    {{ number_format($total_saldo, 0, ',', '.') }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>

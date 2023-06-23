@@ -99,15 +99,9 @@
                         @if (Auth::user()->role == 'admin')
                             <li class="nav-header">Data Master</li>
                             <li class="nav-item">
-                                <a href="{{ route('beban.index') }}" class="nav-link">
+                                <a href="{{ route('akun.index') }}" class="nav-link">
                                     <i class="nav-icon 	fas fa-sliders-h"></i>
-                                    <p> Data Beban </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('pendapatan.index') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-fax"></i>
-                                    <p> Data Pendapatan</p>
+                                    <p> Data Akun </p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -138,15 +132,9 @@
                         <li class="nav-header"></li>
                         <li class="nav-header">Laporan</li>
                         <li class="nav-item">
-                            <a href="{{ route('laporan.penerimaan') }}" class="nav-link">
+                            <a href="{{ route('laporan.index ') }}" class="nav-link">
                                 <i class="nav-icon fas fa-file-pdf"></i>
-                                <p> Jurnal Penerimaah KAS</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('laporan.pengeluaran') }}" class="nav-link">
-                                <i class="nav-icon fas fa-file-pdf"></i>
-                                <p> Jurnal Pengeluaran KAS</p>
+                                <p> Jurnal Laporan KAS</p>
                             </a>
                         </li>
                         <li class="nav-header"></li>

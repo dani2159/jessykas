@@ -3,24 +3,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Pendapatan;
+use App\Models\Akun;
 
-class PendapatanController extends Controller
+class AkunController extends Controller
 {
     public function index()
     {
-        $data['list'] = Pendapatan::all();
+        $data['list'] = Akun::all();
 
-        return view('admin.pendapatan.index', $data);
+        return view('admin.dataakun.index', $data);
 
     }
 
     public function store(Request $request)
     {
-        $data = new Pendapatan;
-        $data->kode_pendapatan = $request->kode_pendapatan;
-        $data->nama_pendapatan = $request->nama_pendapatan;
-        $data->keterangan = $request->keterangan;
+        $data = new akun;
+        $data->kode_akun = $request->kode_akun;
+        $data->nama_akun = $request->nama_akun;
+        $data->kelompok_akun = $request->kelompok_akun;
 
         if($data->save()){
             $result['status'] = true;
@@ -34,11 +34,11 @@ class PendapatanController extends Controller
 
     public function update(Request $request)
     {
-        $data = Pendapatan::find($request->id);
+        $data = Akun::find($request->id);
         if($data){
-            $data->kode_pendapatan = $request->kode_pendapatan;
-            $data->nama_pendapatan = $request->nama_pendapatan;
-            $data->keterangan = $request->keterangan;
+            $data->kode_akun = $request->kode_akun;
+            $data->nama_akun = $request->nama_akun;
+            $data->kelompok_akun = $request->kelompok_akun;
             if($data->save()){
                 $result['status'] = true;
                 $result['message'] = 'Data berhasil diubah.';
@@ -55,7 +55,7 @@ class PendapatanController extends Controller
 
     public function destroy(Request $request)
     {
-        $data = Pendapatan::find($request->id);
+        $data = Akun::find($request->id);
 
         if($data->delete()){
             $result['status'] = true;

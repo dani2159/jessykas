@@ -9,9 +9,16 @@ class AkunController extends Controller
 {
     public function index()
     {
-        $data['list'] = Akun::all();
+        $data['list'] = Akun::where('kategori', 1)->get();
 
         return view('admin.dataakun.index', $data);
+
+    }
+    public function pengeluaran()
+    {
+        $data['list'] = Akun::where('kategori', 2)->get();
+
+        return view('admin.dataakun.pengeluaran', $data);
 
     }
 
@@ -21,6 +28,7 @@ class AkunController extends Controller
         $data->kode_akun = $request->kode_akun;
         $data->nama_akun = $request->nama_akun;
         $data->kelompok_akun = $request->kelompok_akun;
+        $data->kategori = $request->kategori;
 
         if($data->save()){
             $result['status'] = true;

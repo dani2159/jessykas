@@ -21,7 +21,7 @@ class PengeluaranController extends Controller
             $no = intval(substr($latest->no_transaksi, 3)) + 1;
         }
 
-        $data['no_transaksi'] = 'TRK' . str_pad($no, 6, '0', STR_PAD_LEFT);
+        $data['no_transaksi'] = 'RKP' . str_pad($no, 6, '0', STR_PAD_LEFT);
 
 
         $data['list'] = Transaksi::join('tb_akun', 'tb_akun.kode_akun', '=', 'tb_transaksi.kode_akun')
@@ -29,7 +29,7 @@ class PengeluaranController extends Controller
         ->whereNotNull('tb_transaksi.pengeluaran')
         ->get();
 
-        $data['akun'] = Akun::all();
+        $data['akun'] = Akun::where('kategori', 2)->get();
 
         return view('admin.pengeluaran.index', $data);
 
@@ -93,6 +93,16 @@ class PengeluaranController extends Controller
         }
 
         return $result;
+    }
+
+    public function cetak($id) {
+
+        $data['transaksi'] = Transaksi::join('tb_akun', 'tb_akun.kode_akun', '=', 'tb_transaksi.kode_akun')
+        ->select('tb_transaksi.*', 'tb_akun.kode_akun', 'tb_akun.nama_akun')
+        ->where('tb_transaksi.id', $id)
+        ->first();
+
+        return view('admin.pengeluaran.cetak', $data);
     }
 
 }

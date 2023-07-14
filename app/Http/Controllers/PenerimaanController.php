@@ -21,7 +21,7 @@ class PenerimaanController extends Controller
             $no = intval(substr($latest->no_transaksi, 3)) + 1;
         }
 
-        $data['no_transaksi'] = 'TRK' . str_pad($no, 6, '0', STR_PAD_LEFT);
+        $data['no_transaksi'] = 'RKP' . str_pad($no, 6, '0', STR_PAD_LEFT);
 
 
        //tampilkan list data transaksi penerimaan
@@ -31,7 +31,7 @@ class PenerimaanController extends Controller
         ->get();
 
 
-        $data['akun'] = Akun::all();
+        $data['akun'] = Akun::where('kategori', 1)->get();
 
         return view('admin.penerimaan.index', $data);
 
@@ -96,6 +96,17 @@ class PenerimaanController extends Controller
         }
 
         return $result;
+    }
+
+    //cetak
+    public function cetak($id) {
+
+        $data['transaksi'] = Transaksi::join('tb_akun', 'tb_akun.kode_akun', '=', 'tb_transaksi.kode_akun')
+        ->select('tb_transaksi.*', 'tb_akun.kode_akun', 'tb_akun.nama_akun')
+        ->where('tb_transaksi.id', $id)
+        ->first();
+
+        return view('admin.penerimaan.cetak', $data);
     }
 
 }

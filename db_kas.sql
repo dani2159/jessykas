@@ -11,101 +11,60 @@
  Target Server Version : 50734
  File Encoding         : 65001
 
- Date: 21/06/2023 20:36:33
+ Date: 24/06/2023 12:05:55
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for tb_beban
+-- Table structure for tb_akun
 -- ----------------------------
-DROP TABLE IF EXISTS `tb_beban`;
-CREATE TABLE `tb_beban` (
+DROP TABLE IF EXISTS `tb_akun`;
+CREATE TABLE `tb_akun` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
-  `kode_beban` varchar(255) NOT NULL,
-  `nama_beban` varchar(100) NOT NULL,
-  `keterangan` text,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_beban
--- ----------------------------
-BEGIN;
-INSERT INTO `tb_beban` VALUES (1, 'BBNLIS', 'Listrik', 'pembayaran listrik', '2023-05-18 14:33:30', '2023-05-18 14:41:42');
-INSERT INTO `tb_beban` VALUES (2, 'BBNAIR', 'PDAM', 'Pembayaran Air PDAM', '2023-05-31 09:51:11', '2023-05-31 09:51:11');
-COMMIT;
-
--- ----------------------------
--- Table structure for tb_pendapatan
--- ----------------------------
-DROP TABLE IF EXISTS `tb_pendapatan`;
-CREATE TABLE `tb_pendapatan` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `kode_pendapatan` varchar(255) NOT NULL,
-  `nama_pendapatan` varchar(100) NOT NULL,
-  `keterangan` text,
+  `kode_akun` varchar(16) NOT NULL,
+  `nama_akun` varchar(100) NOT NULL,
+  `kelompok_akun` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of tb_pendapatan
+-- Records of tb_akun
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_pendapatan` VALUES (4, 'PD', '001', '001', '2023-06-21 19:59:03', '2023-06-21 19:59:03');
-INSERT INTO `tb_pendapatan` VALUES (5, 'PD02', '002', '002', '2023-06-21 20:30:19', '2023-06-21 20:30:19');
+INSERT INTO `tb_akun` VALUES (4, 'PD', '001', '0012', '2023-06-21 19:59:03', '2023-06-23 23:32:36');
+INSERT INTO `tb_akun` VALUES (5, 'PD02', '002', '002', '2023-06-21 20:30:19', '2023-06-21 20:30:19');
 COMMIT;
 
 -- ----------------------------
--- Table structure for tb_penerimaan
+-- Table structure for tb_transaksi
 -- ----------------------------
-DROP TABLE IF EXISTS `tb_penerimaan`;
-CREATE TABLE `tb_penerimaan` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `no_income` varchar(255) NOT NULL,
-  `kode_pendapatan` varchar(255) DEFAULT NULL,
-  `jumlah_penerimaan` int(16) NOT NULL,
+DROP TABLE IF EXISTS `tb_transaksi`;
+CREATE TABLE `tb_transaksi` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `no_transaksi` varchar(255) NOT NULL,
+  `kode_akun` varchar(16) NOT NULL,
+  `penerimaan` int(16) DEFAULT NULL,
+  `pengeluaran` int(16) DEFAULT NULL,
   `keterangan` varchar(255) NOT NULL,
-  `tanggal_penerimaan` date NOT NULL,
+  `tanggal` date NOT NULL,
+  `id_pengguna` int(5) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of tb_penerimaan
+-- Records of tb_transaksi
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_penerimaan` VALUES (1, 'I002/VI/2023', 'PD02', 500000, 'Pemasukan Awal Edit', '2023-06-19', '2023-06-19 13:00:33', '2023-06-21 20:31:57');
-INSERT INTO `tb_penerimaan` VALUES (2, 'I001/VI/2023', 'PD', 1000000, 'Penerimaan 0', '2023-06-01', '2023-06-19 15:38:03', '2023-06-21 20:31:00');
-COMMIT;
-
--- ----------------------------
--- Table structure for tb_pengeluaran
--- ----------------------------
-DROP TABLE IF EXISTS `tb_pengeluaran`;
-CREATE TABLE `tb_pengeluaran` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `no_expenditure` varchar(255) NOT NULL,
-  `kode_beban` varchar(255) DEFAULT NULL,
-  `jumlah_pengeluaran` int(16) NOT NULL,
-  `keterangan` varchar(255) NOT NULL,
-  `tanggal_pengeluaran` date NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_pengeluaran
--- ----------------------------
-BEGIN;
-INSERT INTO `tb_pengeluaran` VALUES (1, 'E001/VI/2023', 'BBNAIR', 5000000, 'Pengeluaran 1 Edit', '2023-06-19', '2023-06-19 13:23:34', '2023-06-21 20:36:04');
+INSERT INTO `tb_transaksi` VALUES (3, 'TRK000001', 'PD', 1500000, NULL, 'Masukan Ketssss', '2023-06-23', 1, '2023-06-23 23:45:36', '2023-06-24 00:06:15');
+INSERT INTO `tb_transaksi` VALUES (5, 'TRK000002', 'PD02', NULL, 300000, 'ssss', '2023-06-24', 1, '2023-06-24 00:06:03', '2023-06-24 00:06:03');
+INSERT INTO `tb_transaksi` VALUES (6, 'TRK000003', 'PD02', NULL, 500000, 'Aqua', '2023-06-24', 1, '2023-06-24 00:39:28', '2023-06-24 00:39:28');
+INSERT INTO `tb_transaksi` VALUES (7, 'TRK000004', 'PD', 800000, NULL, 'masuk', '2023-06-24', 1, '2023-06-24 01:16:37', '2023-06-24 01:16:37');
 COMMIT;
 
 -- ----------------------------

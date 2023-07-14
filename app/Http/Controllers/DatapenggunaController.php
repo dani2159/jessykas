@@ -89,4 +89,26 @@ class DatapenggunaController extends Controller
         return $result;
 
     }
+
+    public function updatePassword(Request $request)
+    {
+        $check = UserModel::where(['id' => $request->id])->first();
+
+        if ($check) {
+                $check->password = bcrypt($request->password);
+            if ($check->save()) {
+                $result['status'] = true;
+                $result['message'] = 'Password berhasil diubah.';
+            } else {
+                $result['status'] = false;
+                $result['message'] = 'Password gagal diubah.';
+            }
+        } else {
+            $result['status'] = false;
+            $result['message'] = 'User tidak ditemukan.';
+        }
+
+        return $result;
+
+    }
 }

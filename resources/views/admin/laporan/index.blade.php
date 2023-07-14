@@ -1,11 +1,17 @@
 @extends('admin.layout.index', ['title' => 'Laporan KAS'])
 
-
 @section('css')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <style>
+        @media print {
+            h1 {
+                display: none;
+            }
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -61,30 +67,26 @@
                                                 </select>
                                             </div>
                                         </div>
-
-
                                         <div class="col-sm-3 ">
                                             <label>&nbsp;</label>
                                             <div class="form-group">
-
                                                 <button type="submit" class="btn btn-primary"><span
                                                         class="fa fa-filter"></span> Filter Data</button>
                                             </div>
                                         </div>
                                     </div>
-
                                 </form>
 
                                 <table id="tabledata" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>No. Income</th>
+                                            <th>No. Rekap</th>
                                             <th>Tanggal</th>
                                             <th>Keterangan</th>
-                                            <th>Debit</th>
-                                            <th>Kredit</th>
-                                            <th>Saldo</th>
+                                            <th class="text-right">Debit</th>
+                                            <th class="text-right">Kredit</th>
+                                            <th class="text-right">Saldo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -117,6 +119,8 @@
     <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+    <script src="{{ asset('assets/js/day/day.js') }}"></script>
+    <script src="{{ asset('assets/js/day/id.js') }}"></script>
     <script>
         $(function() {
             $('#formUpdate').submit(function(e) {
@@ -136,31 +140,95 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                dom: 'lBfrtip ',
+                dom: 'lBfrtip',
                 buttons: [{
                         extend: 'excel',
                         className: 'btn btn-success',
                         text: '<i class="fas fa-file-excel"></i> Excel',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6]
+                            columns: [0, 1, 2, 3, 4, 5, 6],
+                            title: '',
+                            format: {
+                                header: function(data, columnIdx) {
+                                    return 'Kop Surat Anda';
+                                },
+                                footer: function(data, columnIdx) {
+                                    return 'Dicetak pada tanggal ' + moment().format('DD-MM-YYYY') +
+                                        ' | Saldo Akhir: ' + $('#endingBalance').text();
+                                }
+                            }
+                        },
+                        customize: function(xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            $('row:first c', sheet).attr('s', '42');
                         }
                     },
-                    {
-                        extend: 'pdf',
-                        className: 'btn btn-danger',
-                        text: '<i class="fas fa-file-pdf"></i> PDF',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6]
+                    // {
+                    //     extend: 'pdf',
+                    //     className: 'btn btn-danger',
+                    //     text: '<i class="fas fa-file-pdf"></i> PDF',
+                    //     exportOptions: {
+                    //         columns: [0, 1, 2, 3, 4, 5, 6],
+                    //     },
+                    //     customize: function(doc) {
+                    //         doc.content.splice(0, 0, {
+                    //             margin: [0, 0, 0, 10],
+                    //             alignment: 'center',
+                    //             text: 'Kop Surat Anda'
+                    //         });
 
-                        }
-                    },
+                    //         doc.footer = function(currentPage, pageCount) {
+                    //             return {
+                    //                 margin: [10, 0],
+                    //                 columns: [{
+                    //                         alignment: 'left',
+                    //                         text: 'Dicetak pada tanggal ' + moment().format(
+                    //                                 'DD-MM-YYYY') +
+                    //                             ' | Saldo Akhir: ' + $('#endingBalance')
+                    //                             .text()
+                    //                     },
+                    //                     {
+                    //                         alignment: 'right',
+                    //                         text: 'Halaman ' + currentPage.toString() +
+                    //                             ' dari ' + pageCount.toString()
+                    //                     }
+                    //                 ]
+                    //             };
+                    //         };
+                    //     }
+                    // },
                     {
                         extend: 'print',
                         className: 'btn btn-info',
                         text: '<i class="fas fa-print"></i> Print',
                         layout: 'landscape',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6]
+                            columns: [0, 1, 2, 3, 4, 5, 6],
+                            title: ''
+                        },
+                        customize: function(win) {
+                            $(win.document.body).find('.dt-title').remove();
+                            dayjs.locale('id');
+
+                            var fromDate = dayjs($('input[name="from_date"]').val()).format(
+                                'DD MMMM YYYY');
+                            var toDate = dayjs($('input[name="to_date"]').val()).format(
+                                'DD MMMM YYYY');
+                            $(win.document.body).prepend(
+                                '<img src="{{ asset('assets/img/kop_surat.png') }}" style="width: 100%;" /><br><br> <h2 style="text-align: center;"><b>Laporan Penerimaan dan Pengeluaran Kas</b></h2> <br> <p style="text-align: right;">Tanggal Dicetak: ' +
+                                dayjs().format('DD MMMM YYYY') +
+                                '</p><br> <span style="text-align: left;">Tanggal Awal: ' +
+                                fromDate +
+                                '<br>Tanggal Awal:  ' +
+                                toDate +
+                                '</span> <br><br>'
+                            );
+                            $(win.document.body).append(
+                                '<br><div style="text-align: left;">Saldo Akhir: <span id="endingBalance"></span></div>'
+                            );
+                            $(win.document.body).append(
+                                '<div style="width:95%; float: right; margin-right:5%;"><strong><table style="float: right; text-align:center;"><tr style="width:10%;"><td>Dibuat Oleh,</td></tr><tr><td style="height: 50px;"></td><tr><td>{{ ucwords(Auth::user()->nama) }}({{ ucwords(Auth::user()->role) }})</td></tr></table></b></div>'
+                            );
                         }
                     },
                 ],
@@ -192,23 +260,55 @@
                     },
                     {
                         data: 'penerimaan',
-                        name: 'penerimaan'
+                        name: 'penerimaan',
+                        className: 'text-right',
+                        render: function(data, type, full, meta) {
+                            if (data === '-') {
+                                return data;
+                            } else {
+                                return parseFloat(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                });
+                            }
+                        }
                     },
                     {
                         data: 'pengeluaran',
-                        name: 'pengeluaran'
+                        name: 'pengeluaran',
+                        className: 'text-right',
+                        render: function(data, type, full, meta) {
+                            if (data === '-') {
+                                return data;
+                            } else {
+                                return parseFloat(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                });
+                            }
+                        }
                     },
                     {
                         data: 'saldo',
-                        name: 'saldo'
+                        name: 'saldo',
+                        className: 'text-right',
+                        render: function(data, type, full, meta) {
+                            if (data === '-') {
+                                return data;
+                            } else {
+                                return parseFloat(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                });
+                            }
+                        }
                     },
-
                 ],
                 language: {
                     processing: "Sedang memproses...",
                     zeroRecords: "Data tidak ditemukan",
                     infoEmpty: "Data kosong",
-                },
+                }
             });
         });
     </script>

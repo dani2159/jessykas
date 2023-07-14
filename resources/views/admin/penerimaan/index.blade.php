@@ -44,7 +44,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>NO. Transaksi</th>
+                                            <th>NO. Rekap</th>
                                             <th>Kode akun</th>
                                             <th>Nama akun</th>
                                             <th>Tanggal</th>
@@ -71,6 +71,9 @@
                                                         <button class="btn btn-danger btn-sm"
                                                             onclick="hapusData({{ $item->id }})"><span
                                                                 class="fa fa-trash"></span></button>
+                                                        <a href="{{ route('penerimaan.cetak', $item->id) }}"
+                                                            class="btn btn-success btn-sm" target="_blank"><span
+                                                                class="fa fa-print"></span></a>
 
                                                     </div>
                                                 </td>

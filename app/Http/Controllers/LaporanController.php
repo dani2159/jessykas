@@ -58,10 +58,10 @@ class LaporanController extends Controller
                 return Carbon::parse($data->tanggal)->translatedFormat('d F Y');
             })
             ->editColumn('penerimaan', function ($data) {
-                return $data->penerimaan == null ? '-' : 'Rp. ' . number_format($data->penerimaan, 0, ',', '.');
+                return $data->penerimaan == null ? '-' :  $data->penerimaan;
             })
             ->editColumn('pengeluaran', function ($data) {
-                return $data->pengeluaran == null ? '-' : 'Rp. ' . number_format($data->pengeluaran, 0, ',', '.');
+                return $data->pengeluaran == null ? '-' :  $data->pengeluaran;
             })
             ->editColumn('saldo', function ($data) {
                 $filterData = request()->input('filter_data');
@@ -70,7 +70,7 @@ class LaporanController extends Controller
                 } elseif($filterData == 'pengeluaran') {
                     return '-';
                 } else {
-                    return 'Rp. ' . number_format($data->saldo, 0, ',', '.');
+                    return $data->saldo;
                 }
             })
             ->rawColumns(['tanggal', 'penerimaan', 'pengeluaran', 'saldo'])

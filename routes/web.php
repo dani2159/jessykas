@@ -28,12 +28,13 @@ Route::group(['middleware' => 'Userauth'], function () {
     // Route::group(['roles'=>'admin'], function (){
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-
         Route::prefix('/data-penerimaan')->group(function () {
             Route::get('/', [Penerimaancontroller::class, 'index'])->name('penerimaan.index');
             Route::post('/insert', [Penerimaancontroller::class, 'store'])->name('penerimaan.insert');
             Route::put('/update', [Penerimaancontroller::class, 'update'])->name('penerimaan.update');
             Route::delete('/delete', [Penerimaancontroller::class, 'destroy'])->name('penerimaan.delete');
+            Route::get('/cetak/{id}', [Penerimaancontroller::class, 'cetak'])->name('penerimaan.cetak');
+
 
         });
         Route::prefix('/data-pengeluaran')->group(function () {
@@ -41,6 +42,7 @@ Route::group(['middleware' => 'Userauth'], function () {
             Route::post('/insert', [pengeluaranController::class, 'store'])->name('pengeluaran.insert');
             Route::put('/update', [pengeluaranController::class, 'update'])->name('pengeluaran.update');
             Route::delete('/delete', [PengeluaranController::class, 'destroy'])->name('pengeluaran.delete');
+            Route::get('/cetak/{id}', [PengeluaranController::class, 'cetak'])->name('pengeluaran.cetak');
 
         });
 
@@ -49,10 +51,13 @@ Route::group(['middleware' => 'Userauth'], function () {
             Route::post('/insert', [Datapenggunacontroller::class, 'store'])->name('pengguna.insert');
             Route::put('/update', [Datapenggunacontroller::class, 'update'])->name('pengguna.update');
             Route::delete('/delete', [Datapenggunacontroller::class, 'destroy'])->name('pengguna.delete');
+            //update password
+            Route::put('/update-password', [Datapenggunacontroller::class, 'updatePassword'])->name('pengguna.update-password');
         });
 
         Route::prefix('/data-akun')->group(function () {
             Route::get('/', [AkunController::class, 'index'])->name('akun.index');
+            Route::get('/pengeluaran', [AkunController::class, 'pengeluaran'])->name('akun.pengeluaran');
             Route::post('/insert', [AkunController::class, 'store'])->name('akun.insert');
             Route::put('/update', [AkunController::class, 'update'])->name('akun.update');
             Route::delete('/delete', [AkunController::class, 'destroy'])->name('akun.delete');

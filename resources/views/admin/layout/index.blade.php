@@ -66,6 +66,10 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="dropdown-divider"></div>
+                        <a href="javascript:void(0)" onclick="ubahPassword()" class="dropdown-item">
+                            Ubah Password
+                        </a>
+                        <div class="dropdown-divider"></div>
                         <a href="javascript:void(0)" onclick="logout()" class="dropdown-item">
                             Logout
                         </a>
@@ -98,17 +102,25 @@
                         <li class="nav-header"></li>
                         @if (Auth::user()->role == 'admin')
                             <li class="nav-header">Data Master</li>
-                            <li class="nav-item">
-                                <a href="{{ route('akun.index') }}" class="nav-link">
+                            <li class="nav-item ">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon 	fas fa-sliders-h"></i>
                                     <p> Data Akun </p>
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('pengguna.index') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p> Data Pengguna</p>
-                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('akun.index') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Penerimaan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('akun.pengeluaran') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Pengeluaran</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class="nav-header"></li>
@@ -125,6 +137,14 @@
                                 <a href="{{ route('pengeluaran.index') }}" class="nav-link">
                                     <i class="nav-icon 	fas fa-sign-out-alt"></i>
                                     <p> Pengeluaran</p>
+                                </a>
+                            </li>
+                        @elseif (Auth::user()->role == 'owner')
+                            <li class="nav-header">Data Master</li>
+                            <li class="nav-item">
+                                <a href="{{ route('pengguna.index') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p> Data Pengguna</p>
                                 </a>
                             </li>
                         @endif
@@ -147,6 +167,8 @@
         </aside>
         <!-- Content Wrapper. Contains page content -->
         @yield('content')
+
+
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <strong>Copyright &copy; {{ date('Y') }}.</strong> All rights reserved. <div
@@ -160,6 +182,43 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+    <div class="modal fade" id="updatePassword" tabindex="-1" aria-labelledby="updatePasswordLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="javascript:void(0)" id="formPassword" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <input type="hidden" name="id" id="id" value="{{ auth()->user()->id }}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updatePasswordLabel">Ubah Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="password"><span class="text-danger">*</span> Password Baru</label>
+                            <div class="input-group mb-3">
+
+                                <input type="password" class="form-control password" id="password" name="password"
+                                    required placeholder="Masukkan Password Baru">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-dismiss="modal"><span
+                                    class="fa fa-ban"></span> Batal</button>
+                            <button type="submit" class="btn btn-primary"><span class="fa fa-save"></span>
+                                Simpan</button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
 
 
     <!-- jQuery -->
@@ -231,13 +290,74 @@
     </script>
     <script>
         /** tambah class active jika di klik */
-        var url = window.location.href.split('/', 5).join('/');
+        var url = window.location;
         $('ul.nav-sidebar a').filter(function() {
             return this.href == url;
         }).addClass('active');
         $('ul.nav-treeview a').filter(function() {
             return this.href == url;
         }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
+
+        function ubahPassword() {
+            $('#updatePassword').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+
+        $(document).ready(function() {
+            $(".toggle-password").click(function() {
+                var input = $(".password");
+                input.attr('type') === 'password' ? input.attr('type', 'text') : input.attr('type',
+                    'password')
+                if (input.attr('type') === 'password') {
+                    $(this).html('<i class="fas fa-eye"></i>');
+                } else {
+                    $(this).html('<i class="fas fa-eye-slash"></i>');
+                }
+
+
+            });
+
+            $('#formPassword').on('submit', (function(e) {
+                $.LoadingOverlay("show");
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('pengguna.update-password') }}",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data, status, xhr) {
+                        $.LoadingOverlay("hide");
+                        try {
+                            var result = JSON.parse(xhr.responseText);
+                            if (result.status) {
+                                swal(result.message, {
+                                    icon: "success",
+                                    title: "Success",
+                                    text: result.message,
+                                }).then((acc) => {
+                                    location.reload();
+                                });
+                            } else {
+                                swal("Warning!", result.message, "warning");
+                            }
+                        } catch (e) {
+                            swal("Warning!", "Terjadi kesahalan sistem", "error");
+                        }
+                    },
+                    error: function(data) {
+                        $.LoadingOverlay("hide");
+                        swal("Warning!", "Terjadi kesahalan sistem", "error");
+                    }
+                });
+            }));
+        });
     </script>
 
 

@@ -1,4 +1,4 @@
-@extends('admin.layout.index', ['title' => 'Data Akun'])
+@extends('admin.layout.index', ['title' => 'Data Akun Penerimaan'])
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -13,14 +13,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Data Akun</h1>
+                        <h1 class="m-0">Data Akun Penerimaan</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
                                 <a href="#">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item active">Data Akun</li>
+                            <li class="breadcrumb-item active">Data Akun Penerimaan</li>
                         </ol>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                             <div class="card-header">
                                 <button class="float-right btn btn-primary btn-sm" data-toggle="modal"
                                     data-target="#addModal" data-backdrop="static" data-keyboard="false"><span
-                                        class="fa fa-plus"></span> Tambah Data Akun</button>
+                                        class="fa fa-plus"></span> Tambah Data Akun Penerimaan</button>
                             </div>
                             <div class="card-body">
                                 <table class="table table-bordered table-striped table-hover dataTable no-footer"
@@ -81,7 +81,7 @@
             <form action="javascript:void(0)" id="formInsert" method="POST">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">Tambah Data akun</h5>
+                        <h5 class="modal-title" id="addModalLabel">Tambah Data akun Penerimaan</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -96,10 +96,15 @@
                             <label for="nama_akun"><span class="text-danger">*</span> Nama akun</label>
                             <input type="text" class="form-control" id="nama_akun" name="nama_akun" required
                                 placeholder="Masukkan Nama akun">
+                            <input type="hidden" class="form-control" id="kategori" name="kategori" value="1">
                         </div>
                         <div class="form-group">
                             <label for="kelompok_akun"><span class="text-danger">*</span> Kelompok Akun</label>
-                            <textarea name="kelompok_akun" id="kelompok_akun" class="form-control" required placeholder="Masukkan Kelompok Akun"></textarea>
+                            <select name="kelompok_akun" id="kelompok_akunu" class="form-control" required>
+                                <option value="">Pilih Kelompok Akun</option>
+                                <option value="Aktiva Lancar">Aktiva Lancar</option>
+                                <option value="Aktiva Tidak Lancar">Aktiva Tidak Lancar</option>
+                            </select>
                         </div>
 
                     </div>
@@ -119,7 +124,7 @@
                 <input type="hidden" name="id" id="id" required>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="updateModalLabel">Ubah Data akun</h5>
+                        <h5 class="modal-title" id="updateModalLabel">Ubah Data akun Penerimaan</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -137,8 +142,11 @@
                         </div>
                         <div class="form-group">
                             <label for="kelompok_akunu"><span class="text-danger">*</span> Kelompok Akun</label>
-                            <textarea name="kelompok_akun" id="kelompok_akunu" class="form-control" required
-                                placeholder="Masukkan Kelompok Akun"></textarea>
+                            <select name="kelompok_akun" id="kelompok_akunu" class="form-control" required>
+                                <option value="">Pilih Kelompok Akun</option>
+                                <option value="Aktiva Lancar">Aktiva Lancar</option>
+                                <option value="Aktiva Tidak Lancar">Aktiva Tidak Lancar</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -296,7 +304,7 @@
             $('#id').val(item.id);
             $('#nama_akunu').val(item.nama_akun);
             $('#kode_akunu').val(item.kode_akun);
-            $('#kelompok_akunu').val(item.kelompok_akun);
+            $('#kelompok_akunu').trigger('change').val(item.kelompok_akun);
             $('#updateModal').modal({
                 backdrop: 'static',
                 keyboard: false
